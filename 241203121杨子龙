@@ -1,0 +1,40 @@
+package main
+
+import (
+    "fmt"
+    "math/rand"
+    "time"
+)
+
+type Hero struct {
+    name       string
+    health     int
+    attackPower int
+}
+
+func attack(attacker *Hero, defender *Hero) {
+    damage := attacker.attackPower
+    defender.health -= damage
+    fmt.Printf("%s 攻击了 %s，造成 %d 点伤害，%s 剩余生命值：%d\n", attacker.name, defender.name, damage, defender.name, defender.health)
+}
+
+func main() {
+    rand.Seed(time.Now().UnixNano())
+
+    hero1 := Hero{name: "英雄1", health: 100, attackPower: 20}
+    hero2 := Hero{name: "英雄2", health: 100, attackPower: 18}
+
+    for hero1.health > 0 && hero2.health > 0 {
+        if rand.Intn(2) == 0 {
+            attack(&hero1, &hero2)
+        } else {
+            attack(&hero2, &hero1)
+        }
+    }
+
+    if hero1.health > 0 {
+        fmt.Println(hero1.name + "获胜！")
+    } else {
+        fmt.Println(hero2.name + "获胜！")
+    }
+}
